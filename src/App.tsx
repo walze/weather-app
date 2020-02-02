@@ -1,13 +1,11 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy } from 'react'
 import { useLocation } from '~helpers/useLocation'
 import { makeUseObservable, pipeOf } from '~hooks/useObservable'
 import { mergeMap, map } from 'rxjs/operators'
 import { get } from '~helpers'
 import { Location } from '~types'
 import { Weather } from '~types/weather'
-import { identity, ifElse } from 'ramda'
-import { WeatherCard } from '~components/WeatherCard'
 
 
 const useWeather = makeUseObservable(pipeOf(
@@ -15,6 +13,10 @@ const useWeather = makeUseObservable(pipeOf(
     get<Weather>(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=64b7b6c0350e4af3d8ba7b2cb8979293`)),
   map(a => a.data)
 ))
+
+
+const WeatherCard = lazy(() => import('./components/WeatherCard'))
+
 
 export const App = () => {
   const [location, updateLocation] = useLocation()
@@ -26,7 +28,7 @@ export const App = () => {
     [location?.latitude, location?.longitude]
   )
 
-  console.log(weather)
+  console.log(WeatherCard)
 
   return (
     <div>
@@ -38,3 +40,5 @@ export const App = () => {
     </div >
   )
 }
+
+export default App
