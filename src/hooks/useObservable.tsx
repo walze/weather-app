@@ -1,7 +1,8 @@
 import { OperatorFunction, Observable, of } from 'rxjs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { pair } from 'ramda';
 
-type SetState<T> = React.Dispatch<React.SetStateAction<T>>
+export type SetState<T> = React.Dispatch<React.SetStateAction<T>>
 
 export function pipeOf<T>(): (o: Observable<T>) => Observable<T>;
 export function pipeOf<T, A>(op1: OperatorFunction<T, A>): (o: Observable<T>) => Observable<A>;
@@ -21,18 +22,20 @@ export function pipeOf(...fns: OperatorFunction<any, any>[]) {
 type TypeWithGeneric<T> = Observable<T>
 type extractGeneric<Type> = Type extends TypeWithGeneric<infer X> ? X : never
 
-export const useObservable = <T,>(obs: Observable<T>) => (deps?: any[]) => {
-  const [state, setState] = useState()
+export const useObservable = <T,>(obs: () => Observable<T>) => {
+  const [state, setState] = useState<T>()
 
-  useEffect(() => {
-    const subs = obs.subscribe(setState)
+  const updater = () => {
+    const subs = obs().subscribe(setState)
 
-    return () => subs.unsubscribe()
-  }, deps)
+    return () => {
+      subs.unsubscribe()
+    }
+  }
 
-  return [state, setState] as [T, SetState<T>]
+  return pair(state, updater)
 }
 
 export const makeUseObservable = <F extends OperatorFunction<any, any>>(f: F) =>
-  (props: extractGeneric<Parameters<F>[0]>, deps?: any[]) =>
-    useObservable<extractGeneric<ReturnType<F>>>(f(of(props)))(deps)
+  (props?: extractGeneric<Parameters<F>[0]>) =>
+    useObservable<extractGeneric<ReturnType<F>>>(() => f(of(props)))
