@@ -7,6 +7,7 @@ import { get } from '~helpers'
 import { Location } from '~types'
 import { Weather } from '~types/weather'
 import { identity, ifElse } from 'ramda'
+import { WeatherCard } from '~components/WeatherCard'
 
 
 const useWeather = makeUseObservable(pipeOf(
@@ -29,9 +30,9 @@ export const App = () => {
 
   return (
     <div>
-      <div className="todo">
-        <code>WEATHER: {JSON.stringify(weather)}</code>
-      </div>
+      {
+        weather && <WeatherCard {...weather} />
+      }
 
       <button onClick={updateLocation}>next</button>
     </div >
