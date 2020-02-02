@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { curry } from 'ramda'
 
 export const component = <T,>(p: Promise<T>,
   n: keyof T) => p.then(c => c[n])
@@ -16,4 +17,3 @@ export const assert = <T extends (...a: any[]) => any>(f: T, message?: string) =
 
   return r as NonNullable<ReturnType<typeof f>>
 }
-

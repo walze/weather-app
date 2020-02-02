@@ -29,6 +29,8 @@ export const useObservable = <T,>(obs: () => Observable<T>) => {
     const subs = obs().subscribe(setState)
 
     return () => {
+      console.log('unmount')
+
       subs.unsubscribe()
     }
   }
