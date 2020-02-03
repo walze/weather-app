@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html --no-cache --log-level 4",
+    "start": "parcel src/index.html --no-cache --log-level 4 --open",
     "build": "parcel build src/index.html --out-dir ./docs --no-cache --log-level 4 --detailed-report --public-url ."
   },
   "author": "",
