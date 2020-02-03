@@ -20,5 +20,5 @@ export const Droplet = styled.div`
 `
 export const Card = styled.div`
   min-width: 320px;
-  max-width: 640px;
+  max-width: 500px;
 `
