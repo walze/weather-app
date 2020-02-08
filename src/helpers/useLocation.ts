@@ -33,7 +33,7 @@ export const getLocationIP = () => from(get<string>('https://www.cloudflare.com/
   .pipe(
     map(a => a.data.split(/\n/)),
     map(a => a[2].split('=')[1]),
-    flatMap(ip => get<IIpStackResponse>(`http://api.ipstack.com/${ip}?access_key=7c583e8a49ff2cc5c4402b232a8524ae&format=1`)),
+    flatMap(ip => get<IIpStackResponse>(`https://api.ipstack.com/${ip}?access_key=7c583e8a49ff2cc5c4402b232a8524ae&format=1`)),
     map(({ data: { latitude, longitude } }) => ({ latitude, longitude })),
     map(a => a as Location),
     tap(saveLocation),

@@ -13,7 +13,7 @@ const WeatherCard: FunctionComponent<Weather> = (props) => {
 
       <div className="row no-gutters">
         <div className="col-md-4 d-flex align-items-center">
-          <img src={`http://openweathermap.org/img/wn/${climate.icon}@2x.png`} alt={`Photo of ${climate.main}`} />
+          <img src={`https://openweathermap.org/img/wn/${climate.icon}@2x.png`} alt={`Photo of ${climate.main}`} />
 
           <div>
             <h5 className="card-title">{climate.main}</h5>
